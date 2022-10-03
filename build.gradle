@@ -13,8 +13,8 @@ plugins {
     id 'nebula.lint' version '+'
 }
 
-sourceCompatibility = 17
-
+sourceCompatibility = 11
+targetCompatibility = 11
 group 'org.example'
 version '1.0-SNAPSHOT'
 

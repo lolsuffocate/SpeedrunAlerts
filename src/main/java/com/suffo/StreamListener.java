@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.utils.*;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.*;
 
 public class StreamListener{
@@ -56,6 +56,7 @@ public class StreamListener{
 			});
 		}else{
 			channel.sendMessage(member.getAsMention() + " is now streaming " + MarkdownUtil.bold(MarkdownUtil.underline(MarkdownSanitizer.sanitize(stream.getTitle()))) + "\n" + rp.getUrl())
+					.setAllowedMentions(Collections.emptyList()) //disable pings in this message
 				   .queue(msg->{
 							  alertCache.put(member.getId(), new Alert(stream.getUserId(), stream.getId(), msg.getId(), stream.getTitle()));
 						  },
@@ -129,6 +130,18 @@ public class StreamListener{
 		});
 	}
 
-	public record Alert(String streamerId, String streamId, String messageId, String streamTitle){}
+	public static class Alert{
+		public final String streamerId;
+		public final String streamId;
+		public final String messageId;
+		public final String streamTitle;
+
+		public Alert(String streamerId, String streamId, String messageId, String streamTitle){
+			this.streamerId = streamerId;
+			this.streamId = streamId;
+			this.messageId = messageId;
+			this.streamTitle = streamTitle;
+		}
+	}
 
 }
